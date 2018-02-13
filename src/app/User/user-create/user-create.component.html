@@ -1,0 +1,19 @@
+<div>
+	<form #userForm="ngForm" (click)="onSubmit(userForm, userForm.value)" ngNativeValidate>
+		<label>First Name</label>
+		<input type="text" name="firstName" ngModel>
+		<br>
+		<label>Middle Name</label>
+		<input type="text" name="middleName" ngModel>
+		<br>
+		<label>Last Name</label>
+		<input type="text" name="lastName" ngModel>
+		<br>
+		<label>Email</label>
+		<input type="text" name="email" ngModel>
+		<br>
+		<label>Phone Number</label>
+		<input type="text" name="phoneNumber" ngModel>
+		<button type="submit">Submit</button>
+	</form>
+</div>
