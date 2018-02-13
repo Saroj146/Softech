@@ -20,13 +20,13 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
   onSubmit (form, value: any) {
-    console.log('form: vaue=', value);
+    console.log('form vaue:', value);
     this.user = value;
-    this.userService.createUser(this.user).subscribe(
+    this.userService.createUser(value).subscribe(
       data => {
         console.log(data);
         form.resetForm();
-        console.log('Added!', 'Team added successfully.', 'success');
+        console.log('Added!', 'User added successfully.', 'success');
         this.route.navigate(['/users']);
       },
       err => {
@@ -34,7 +34,7 @@ export class UserCreateComponent implements OnInit {
           console.log('An error occurred:', err.error.message);
         } else {
           // The backend returned an unsuccessful response code.
-          console.log(`Backend returned code ${err.status}, body was: ${err}`);
+          console.log(`Backend returned code ${err.status}, body was: ${err.message}`);
         }
       }
     );

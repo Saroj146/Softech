@@ -1,8 +1,8 @@
 import { UserService } from './Services/user.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { requestOptionsProvider } from './default-request-options.service';
+import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { UserCreateComponent } from './User/user-create/user-create.component';
 import { UserViewComponent } from './User/user-view/user-view.component';
@@ -26,6 +26,8 @@ import { HttpModule } from '@angular/http';
     SoftechRoutingModule
   ],
   providers: [
+    requestOptionsProvider,
+    CookieService,
     UserService
   ],
   bootstrap: [AppComponent]

@@ -1,18 +1,17 @@
 <div>
 	<div>
-		<label>First Name</label>
-		<input type="text" value="firstName" ngModel>
+		<label>First Name: {{users?.firstName}}</label>
 		<br>
-		<label>Middle Name</label>
-		<input type="text" value="middleName" ngModel>
-		<br>
-		<label>Last Name</label>
-		<input type="text" value="lastName" ngModel>
-		<br>
-		<label>Email</label>
-		<input type="text" value="email" ngModel>
-		<br>
-		<label>Phone Number</label>
-		<input type="text" value="phoneNumber" placeholder="" ngModel>
+		<label>Middle Name: {{users?.middleName}}</label>
+				<br>
+		<label>Last Name: {{users?.lastName}}</label>
+				<br>
+		<label>Email: {{users?.email}}</label>
+				<br>
+		<label>Phone Number: {{users?.phoneNumber}}</label>
+				<br>
+		<hr>
+		ADD NEW USER <br>
+		<a [routerLink]="['create']"><button>Add User</button></a>
 	</div>
 </div>

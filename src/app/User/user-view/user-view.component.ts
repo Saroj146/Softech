@@ -1,6 +1,7 @@
 import { UserService } from '../../Services/user.service';
+import { User } from '../../Models/User';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-view',
@@ -8,9 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-view.component.css']
 })
 export class UserViewComponent implements OnInit {
-
+  users: User;
   constructor(
-    private route: Router,
     private userService: UserService
   ) { }
 
@@ -20,16 +20,15 @@ export class UserViewComponent implements OnInit {
   viewUser() {
     this.userService.getUsers().subscribe(
       data => {
-        console.log(data);
+        console.log('data: ', data);
+        const d = JSON.parse(JSON.stringify(data['response']));
+        this.users = d;
+        /*this.users= data.response;*/
+        console.log('users',this.users);
       },
-      err => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          // The backend returned an unsuccessful response code.
-          console.log(`Backend returned code ${err.status}, body was: ${err}`);
+      (err: HttpErrorResponse) => {
+          console.log(err.error);
         }
-      }
     );
   }
 
