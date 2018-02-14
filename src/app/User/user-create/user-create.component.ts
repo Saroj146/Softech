@@ -20,7 +20,7 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
   onSubmit (form, value: any) {
-    console.log('form vaue:', value);
+    console.log('form value:', value);
     this.user = value;
     this.userService.createUser(value).subscribe(
       data => {
