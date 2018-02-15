@@ -18,11 +18,14 @@ export class UserService {
   createUser(user) {
     return this.httpClient.post(config.serverApiUrl + 'users', user); 
   }
-  getUserList(search){
+  getUserList(search, size, page, sort){
+    console.log('search:',search );
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     let params: URLSearchParams = new URLSearchParams();
-    params.set('page', '0');
+    params.set('page', page);
+    params.set('size', size);
+    params.set('sort', sort);
     params.set('search', search);
     let options = new RequestOptions({headers: headers});
     options.search = params;

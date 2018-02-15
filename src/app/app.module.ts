@@ -10,7 +10,7 @@ import { SoftechRoutingModule } from './softech-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserListComponent } from './User/user-list/user-list.component';
 

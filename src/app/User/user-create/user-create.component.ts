@@ -27,7 +27,7 @@ export class UserCreateComponent implements OnInit {
         console.log(data);
         form.resetForm();
         console.log('Added!', 'User added successfully.', 'success');
-        this.route.navigate(['/users']);
+        this.route.navigate(['dashboard/users']);
       },
       err => {
         if (err.error instanceof Error) {
