@@ -1,34 +1,59 @@
-<div>
-	<form #searchForm="ngForm" (submit)="onSubmit(searchForm.value)" ngNativeValidate>
-		<input type="text" name="firstName" placeholder="Search by First Name" [ngModel]="search" ><br>
-		<select (change)="setSortOrder( $event.target.value )">
-			<option *ngFor = "let sort of sorts" [value]="sort.value">{{ sort.sortName }}</option>
-		</select><br>
-		<input type="number" name="size" placeholder="Select Size" [ngModel]="size" ><br>
-		<input type="number" name="page" placeholder="Page Displayed" [ngModel]="page" >
-		<button type="submit">Search</button>
-	</form>
-		<table border="1px">
-		<thead>
-			<tr>
-			<th> First Name <span class="glyphicon sort-icon"></span></th>
-			<th> Middle Name</th>
-			<th> Last Name</th>
-			<th> Email </th>
-			<th> Phone Number</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let user of users | paginate: { itemsPerPage: size, currentPage: p, maxSize: totalPages }; let i=index " >
-			<td>{{ user?.firstName }}</td>
-			<td>{{ user?.middleName }}</td>
-			<td>{{ user?.lastName }}</td>
-			<td>{{ user?.email }}</td>
-			<td>{{ user?.phoneNumber }}</td>
-		</tr>
-		</tbody>
-	</table> <br>
-	<button [disabled]="isBase()"><a *ngIf="!isBase()" (click)=" onSubmit({page: page-1})"></a>Prev</button>
-	<button *ngFor="let page of pages; let i = index " (click)=" onSubmit({page:i})">{{i+1}}</button> 
-	<button [disabled]="isCeiling()"><a *ngIf="!isCeiling()" (click)=" onSubmit({ page:page+1 })">Next</a></button>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Softech</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
+</head>
+<body>
+    <div>
+    <div class="container">
+        <div class="text-center">
+            <h1>UserList Pagination</h1>
+            
+            <!-- items being paged -->
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>First Name</th>
+                        <th>Middle Name </th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users; let i= index ">
+                        <td>{{i+1}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.middleName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.phoneNumber}}</td>
+                    </tr>
+                </tbody>
+            </table>
+ 
+            <!-- pager -->
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+</body>
+</html>

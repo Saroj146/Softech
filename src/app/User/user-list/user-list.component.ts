@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../Services/user.service';
 import { User } from '../../Models/User';
+import { Http, Response  } from '@angular/http';
+import { PagerService } from '../../Services/PagerService';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map'
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-user-list',
@@ -9,67 +14,63 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-	
-  ceiling: number;
-	p: number = 1;
-  pages:Array<number> = [];
-  totalPages: number;
-  page: number;
-  sort: string = '';
-  size: number;
-	search: string = '';
-	users: User[];
-  sorts: Array<Object> = [
-    { value: 'ASC', sortName: 'Ascending' },
-    { value: 'DESC', sortName: 'Descending' }
-  ];
+
 
   constructor(
-  	private userService: UserService
+  	private userService: UserService,
+    private http: Http,
+    private pagerService: PagerService
   ) { }
 
-  ngOnInit() {
-  	this.onSubmit({});
-  }
-  onSubmit( search: any){
-    this.pages = [];
-    this.search = search.firstName;
-    this.size = search.size;
-    this.page = search.page;
-  	console.log('search value:', this.search, this.size, this.page, this.sort);
-  	this.userService.getUserList(this.search, this.size, this.page, this.sort).subscribe(
-  		data => {
-        console.log('data: ', data);
-        const d = JSON.parse(data['_body']);
-        this.users= d.response;
-        this.size = d.noOfItems;
-        this.page = d.pageNumber;
-        this.totalPages = d.noOfPages;
-        for (var i = 0; i < this.totalPages; i++) {
-          this.pages.push(i);  
-          this.ceiling = i;
-        }
+    users: User[];
 
-      },
-      (err: HttpErrorResponse) => {
-          console.log(err.error);
-      }
-  	);
+  // array of all items to be paged
+    private allItems: any;
+ 
+    // pager object
+    pager: any = {};
+ 
+    // paged items
+    pagedItems: any[];
+
+  ngOnInit() {
+    this.getUsers();
   }
-  setSortOrder(sort){
-    this.sort = sort;
+  getUsers(){
+    this.userService.getUserList('','','','')
+            .map((response: Response) => response.json())
+            .subscribe(data => {
+                // set items to json response
+                this.allItems = data;
+                this.users = data.response;
+                console.log('user:', this.users);
+                console.log('data:', this.allItems);
+                // initialize to page 1
+                this.setPage(1);
+            });
   }
-  isBase(){
-    if (this.page==this.pages[0]) {
-      return true;
+  setPage(page: number) {
+        if (page < 1 || page > this.pager.totalPages) {
+            return;
+        }
+        this.userService.getUserList('','', page-1,'')
+            .map((response: Response) => response.json())
+            .subscribe(data => {
+                // set items to json response
+                this.allItems = data;
+                this.users = data.response;
+                console.log('user:', this.users);
+                console.log('data:', this.allItems);
+                // initialize to page 1
+                /*this.setPage(page);*/
+            });
+ 
+        // get pager object from service
+        this.pager = this.pagerService.getPager(this.allItems.totalNoOfItems, page);
+ 
+        // get current page of items
+        this.pagedItems = (this.allItems.response).slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
-    return false;
-  }
-  isCeiling(){
-    if (this.page==this.pages[this.ceiling]) {
-      return true;
-    }
-    return false;
-  }
+
 
 }

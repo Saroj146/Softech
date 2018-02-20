@@ -12,6 +12,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PagerService } from './Services/PagerService';
 import { UserListComponent } from './User/user-list/user-list.component';
 
 
@@ -34,6 +35,7 @@ import { UserListComponent } from './User/user-list/user-list.component';
   providers: [
     requestOptionsProvider,
     CookieService,
+    PagerService,
     UserService
   ],
   bootstrap: [AppComponent]
